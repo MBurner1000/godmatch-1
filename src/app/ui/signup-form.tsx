@@ -46,7 +46,7 @@ const SignupForm = () => {
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((index) => (
                     <div key={index} className="w-full md:w-1/2 p-4">
                         <Image
-                            src={`/gm-pic-${index}.PNG`}
+                            src={`/gm-pic-${index}.png`}
                             alt={`Godmatch Image ${index}`}
                             width={538}
                             height={286}
