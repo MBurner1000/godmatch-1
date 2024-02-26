@@ -24,7 +24,7 @@ export default function Home() {
           </Link>
         </div>
         <div className="flex flex-row gap-2 justify-center items-center w-full mb-4 mt-4 p-4 justify-content">
-          <p className="text-md text-white text-center">Our dating site provides a platform for singles looking to meet like-minded individuals, while our partnership with Kingdom Events offers the opportunity for in-person events that allow you to connect with potential matches in a fun and safe environment. We understand that not all relationships work out, which is why we also offer breakup services to help you navigate through the difficult process with support and guidance. In addition, our team of experts provides personalized dating advice to help you improve your dating game and attract the right partner. At GodMatch, we believe that everyone deserves love and a fulfilling relationship, and we are committed to helping you find it. Join us today and let's embark on this journey together!</p>
+          <p className="text-md text-white text-center">Our dating site provides a platform for singles looking to meet like-minded individuals, while our partnership with Kingdom Events offers the opportunity for in-person events that allow you to connect with potential matches in a fun and safe environment. We understand that not all relationships work out, which is why we also offer breakup services to help you navigate through the difficult process with support and guidance. In addition, our team of experts provides personalized dating advice to help you improve your dating game and attract the right partner. At GodMatch, we believe that everyone deserves love and a fulfilling relationship, and we are committed to helping you find it. Join us today and let&apos;s embark on this journey together!</p>
           <Image
             src="/gm-pic-2.PNG"
             alt="Unsplash Image"
@@ -44,11 +44,11 @@ export default function Home() {
             className="hidden md:block" 
           />
           <p className="text-md text-white text-center">
-          GodMatch is a platform that aims to prioritize real-life connections over virtual interactions. At GodMatch, we believe that meeting in person is the best way to truly get to know someone and form a lasting connection. We're dedicated to providing a safe, fun, and effective way for people to meet each other in real life, without the awkwardness and uncertainty of traditional online dating.
+          GodMatch is a platform that aims to prioritize real-life connections over virtual interactions. At GodMatch, we believe that meeting in person is the best way to truly get to know someone and form a lasting connection. We&apos;re dedicated to providing a safe, fun, and effective way for people to meet each other in real life, without the awkwardness and uncertainty of traditional online dating.
           </p>
         </div>
         <div className="flex flex-row gap-2 justify-center items-center w-full mb-4 mt-4 p-4 justify-content">
-          <p className="text-md text-white text-center">Our team is made up of experienced dating experts who understand the challenges and frustrations of modern dating. We know that online dating can be overwhelming, time-consuming, and often disappointing. That's why we created GodMatch - to offer an alternative approach that puts the focus back on face-to-face interactions.</p>
+          <p className="text-md text-white text-center">Our team is made up of experienced dating experts who understand the challenges and frustrations of modern dating. We know that online dating can be overwhelming, time-consuming, and often disappointing. That&apos;s why we created GodMatch - to offer an alternative approach that puts the focus back on face-to-face interactions.</p>
           <Image
             src="/gm-pic-1.PNG"
             alt="Unsplash Image"
@@ -91,7 +91,7 @@ export default function Home() {
           priority
           className="hidden md:block" 
           />
-          <p className="text-md text-white text-center">At GodMatch, we believe that dating should be fun, exciting, and empowering. We're dedicated to helping people find meaningful connections that last, and we're passionate about bringing people together in real life. Join us today and experience the difference of GodMatch.</p>
+          <p className="text-md text-white text-center">At GodMatch, we believe that dating should be fun, exciting, and empowering. We&apos;re dedicated to helping people find meaningful connections that last, and we&apos;re passionate about bringing people together in real life. Join us today and experience the difference of GodMatch.</p>
         </div>
       </div>
     </main>
