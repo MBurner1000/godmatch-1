@@ -26,7 +26,7 @@ export default function Home() {
         <div className="flex flex-row gap-2 justify-center items-center w-full mb-4 mt-4 p-4 justify-content">
           <p className="text-md text-white text-center">Our dating site provides a platform for singles looking to meet like-minded individuals, while our partnership with Kingdom Events offers the opportunity for in-person events that allow you to connect with potential matches in a fun and safe environment. We understand that not all relationships work out, which is why we also offer breakup services to help you navigate through the difficult process with support and guidance. In addition, our team of experts provides personalized dating advice to help you improve your dating game and attract the right partner. At GodMatch, we believe that everyone deserves love and a fulfilling relationship, and we are committed to helping you find it. Join us today and let&apos;s embark on this journey together!</p>
           <Image
-            src="/gm-pic-2.PNG"
+            src="/gm-pic-2.png"
             alt="Unsplash Image"
             width={538}
             height={286}
@@ -36,7 +36,7 @@ export default function Home() {
         </div>
         <div className="flex flex-row gap-2 justify-center items-center w-full mb-4 mt-4 p-4 justify-content">
           <Image
-            src="/gm-pic-3.PNG"
+            src="/gm-pic-3.png"
             alt="Unsplash Image"
             width={538}
             height={286}
@@ -50,7 +50,7 @@ export default function Home() {
         <div className="flex flex-row gap-2 justify-center items-center w-full mb-4 mt-4 p-4 justify-content">
           <p className="text-md text-white text-center">Our team is made up of experienced dating experts who understand the challenges and frustrations of modern dating. We know that online dating can be overwhelming, time-consuming, and often disappointing. That&apos;s why we created GodMatch - to offer an alternative approach that puts the focus back on face-to-face interactions.</p>
           <Image
-            src="/gm-pic-1.PNG"
+            src="/gm-pic-1.png"
             alt="Unsplash Image"
             width={538}
             height={286}
@@ -60,7 +60,7 @@ export default function Home() {
         </div>
         <div className="flex flex-row gap-2 justify-center items-center w-full mb-4 mt-4 p-4 justify-content">
           <Image
-          src={"/gm-pic-4.PNG"}
+          src={"/gm-pic-4.png"}
           alt="Unsplash Image"
           width={538}
           height={286}
@@ -74,7 +74,7 @@ export default function Home() {
         <div className="flex flex-row gap-2 justify-center items-center w-full mb-4 mt-4 p-4 justify-content">
           <p className="text-md text-white text-center">But our commitment to real-life connections goes beyond just organizing events and providing matchmaking services. We also offer resources and advice to help members build their social skills, improve their confidence, and develop a more positive and authentic approach to dating.</p>
           <Image
-          src={"/gm-pic-5.PNG"}
+          src={"/gm-pic-5.png"}
           alt="Unsplash Image"
           width={538}
           height={286}
@@ -84,7 +84,7 @@ export default function Home() {
         </div>
         <div className="flex flex-row gap-2 justify-center items-center w-full mb-4 mt-4 p-4 justify-content">
           <Image
-          src={"/gm-pic-6.PNG"}
+          src={"/gm-pic-6.png"}
           alt="Unsplash Image"
           width={538}
           height={286}
