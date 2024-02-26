@@ -1,0 +1,68 @@
+'use client';
+
+import { useState, useRef, useEffect } from "react";
+
+const AdviceForm = () => {
+    const [title, setTitle] = useState("");
+    const [body, setBody] = useState("");
+    const imageContainerRef = useRef<HTMLDivElement>(null);
+
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        // Handle form submission
+    };
+
+    useEffect(() => {
+        const container = imageContainerRef.current;
+        if (!container) return;
+
+        let scrollInterval: NodeJS.Timeout;
+
+        const scrollContainer = () => {
+            if (container.scrollTop !== undefined && container.scrollHeight !== undefined && container.clientHeight !== undefined) {
+                container.scrollTop += 1;
+                if (container.scrollTop >= container.scrollHeight - container.clientHeight) {
+                    container.scrollTop = 0;
+                }
+            }
+        };
+
+        scrollInterval = setInterval(scrollContainer, 50);
+
+        return () => clearInterval(scrollInterval);
+    }, []);
+
+    return (
+        <div className="flex flex-row gap-2 justify-center items-center w-full mb-4 mt-4 p-4 justify-content">
+            <div className="flex flex-col gap-2 justify-center items-center w-full mb-4 mt-4 p-4 justify-content">
+                <form onSubmit={handleSubmit} className="flex flex-col gap-2 justify-center items-center w-full mb-4 mt-4 p-4 justify-content">
+                    <label htmlFor="Title" className="text-white">Question:</label>
+                    <input
+                        type="text"
+                        id="Title"
+                        name="Title"
+                        placeholder="Question..."
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        required
+                        className="border-2 border-black text-black rounded p-2 w-full"
+                    />
+                    <label htmlFor="Body" className="text-white">Add More Detail Here:</label>
+                    <textarea
+                        id="Body"
+                        name="Body"
+                        placeholder="Your Question's Details. In other words, why are you asking this?"
+                        value={body}
+                        onChange={(e) => setBody(e.target.value)}
+                        required
+                        className="border-2 border-black text-black rounded p-4 w-full"
+                    />
+                    <button type="submit" className="bg-black mr-2 px-4 py-2 rounded">Ask For Advice</button>
+                </form>
+            </div>
+        </div>
+
+    );
+}
+
+export default AdviceForm;

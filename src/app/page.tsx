@@ -1,112 +1,98 @@
 import Image from "next/image";
+import Link from "next/link";
+import MainHeader from "./ui/header";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
+    <main>
+      <MainHeader />
+      <div className="flex max-h-200 flex-col items-center">
         <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
+          src="/logo.PNG"
+          alt="Godmatch Logo"
+          width={200}
+          height={200}
           priority
         />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
+        <h1 className="text-sm font-bold">Matches Made in Heaven</h1>
+        <div className="flex flex-row mt-4 mb-4 gap-2 ">
+          <Link className="bg-black mr-2 px-4 py-2 rounded" href={"Signup"}>
+            Get Started
+          </Link>
+          <Link className="bg-black mr-2 px-4 py-2 rounded" href={"/Login"}>
+            Login
+          </Link>
+        </div>
+        <div className="flex flex-row gap-2 justify-center items-center w-full mb-4 mt-4 p-4 justify-content">
+          <p className="text-md text-white text-center">Our dating site provides a platform for singles looking to meet like-minded individuals, while our partnership with Kingdom Events offers the opportunity for in-person events that allow you to connect with potential matches in a fun and safe environment. We understand that not all relationships work out, which is why we also offer breakup services to help you navigate through the difficult process with support and guidance. In addition, our team of experts provides personalized dating advice to help you improve your dating game and attract the right partner. At GodMatch, we believe that everyone deserves love and a fulfilling relationship, and we are committed to helping you find it. Join us today and let's embark on this journey together!</p>
+          <Image
+            src="/gm-pic-2.PNG"
+            alt="Unsplash Image"
+            width={538}
+            height={286}
+            priority
+            className="hidden md:block" 
+          />
+        </div>
+        <div className="flex flex-row gap-2 justify-center items-center w-full mb-4 mt-4 p-4 justify-content">
+          <Image
+            src="/gm-pic-3.PNG"
+            alt="Unsplash Image"
+            width={538}
+            height={286}
+            priority
+            className="hidden md:block" 
+          />
+          <p className="text-md text-white text-center">
+          GodMatch is a platform that aims to prioritize real-life connections over virtual interactions. At GodMatch, we believe that meeting in person is the best way to truly get to know someone and form a lasting connection. We're dedicated to providing a safe, fun, and effective way for people to meet each other in real life, without the awkwardness and uncertainty of traditional online dating.
           </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
+        </div>
+        <div className="flex flex-row gap-2 justify-center items-center w-full mb-4 mt-4 p-4 justify-content">
+          <p className="text-md text-white text-center">Our team is made up of experienced dating experts who understand the challenges and frustrations of modern dating. We know that online dating can be overwhelming, time-consuming, and often disappointing. That's why we created GodMatch - to offer an alternative approach that puts the focus back on face-to-face interactions.</p>
+          <Image
+            src="/gm-pic-1.PNG"
+            alt="Unsplash Image"
+            width={538}
+            height={286}
+            priority
+            className="hidden md:block" 
+            />
+        </div>
+        <div className="flex flex-row gap-2 justify-center items-center w-full mb-4 mt-4 p-4 justify-content">
+          <Image
+          src={"/gm-pic-4.PNG"}
+          alt="Unsplash Image"
+          width={538}
+          height={286}
+          priority
+          className="hidden md:block" 
+          />
+          <p className="text-md text-white text-center">
+          At GodMatch, we use a variety of tools and strategies to help members connect with each other in the real world. Our events range from casual meetups and group outings to more structured activities like speed dating and singles mixers. We also offer personalized matchmaking services for members who want extra support in finding their perfect match.
           </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+        </div>
+        <div className="flex flex-row gap-2 justify-center items-center w-full mb-4 mt-4 p-4 justify-content">
+          <p className="text-md text-white text-center">But our commitment to real-life connections goes beyond just organizing events and providing matchmaking services. We also offer resources and advice to help members build their social skills, improve their confidence, and develop a more positive and authentic approach to dating.</p>
+          <Image
+          src={"/gm-pic-5.PNG"}
+          alt="Unsplash Image"
+          width={538}
+          height={286}
+          priority
+          className="hidden md:block" 
+          />
+        </div>
+        <div className="flex flex-row gap-2 justify-center items-center w-full mb-4 mt-4 p-4 justify-content">
+          <Image
+          src={"/gm-pic-6.PNG"}
+          alt="Unsplash Image"
+          width={538}
+          height={286}
+          priority
+          className="hidden md:block" 
+          />
+          <p className="text-md text-white text-center">At GodMatch, we believe that dating should be fun, exciting, and empowering. We're dedicated to helping people find meaningful connections that last, and we're passionate about bringing people together in real life. Join us today and experience the difference of GodMatch.</p>
+        </div>
       </div>
     </main>
   );
