@@ -1,11 +1,12 @@
 'use client';
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const ProfileCard = ({ imageSrc, text }: { imageSrc: string; text: string }) => {
   return (
     <Link className="bg-white rounded-lg shadow-lg p-4" href="/Dashboard/Public_Profile">
-      <img src={imageSrc} alt="Profile" className="w-200 h-200 object-cover rounded-lg mb-2"
+      <Image src={imageSrc} alt="Profile" className="w-200 h-200 object-cover rounded-lg mb-2"
         style={{ aspectRatio: '1 / 1' }}  />
       <p>{text}</p>
     </Link>

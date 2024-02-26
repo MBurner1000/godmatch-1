@@ -1,6 +1,7 @@
 'use client';
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const ChatRoom = () => {
 
@@ -19,7 +20,7 @@ const ChatRoom = () => {
           {/* Display messages here */}
           <div className="flex items-start mb-4">
             {/* Profile image */}
-            <img
+            <Image
               src="/gm-pic-1.png"
               alt="Profile Image"
               className="w-12 h-12 rounded-full mr-4"
@@ -32,7 +33,7 @@ const ChatRoom = () => {
           </div>
           {/* More filler messages */}
           <div className="flex items-start mb-4">
-            <img
+            <Image
               src="/gm-pic-2.png"
               alt="Profile Image"
               className="w-12 h-12 rounded-full mr-4"

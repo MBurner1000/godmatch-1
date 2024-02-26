@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import Image from 'next/image';
 
 const PickImages = () => {
     const [selectedImages, setSelectedImages] = useState<File[]>([]);
@@ -57,7 +58,7 @@ const PickImages = () => {
                 <div className="grid grid-cols-3 gap-4 mt-4">
                     {selectedImages.map((image, index) => (
                         <div key={index}>
-                            <img
+                            <Image
                                 src={URL.createObjectURL(image)}
                                 alt={`Image ${index}`}
                                 className="w-full h-auto"
