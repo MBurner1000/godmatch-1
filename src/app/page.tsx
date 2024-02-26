@@ -26,7 +26,7 @@ export default function Home() {
         <div className="flex flex-row gap-2 justify-center items-center w-full mb-4 mt-4 p-4 justify-content">
           <p className="text-md text-white text-center">Our dating site provides a platform for singles looking to meet like-minded individuals, while our partnership with Kingdom Events offers the opportunity for in-person events that allow you to connect with potential matches in a fun and safe environment. We understand that not all relationships work out, which is why we also offer breakup services to help you navigate through the difficult process with support and guidance. In addition, our team of experts provides personalized dating advice to help you improve your dating game and attract the right partner. At GodMatch, we believe that everyone deserves love and a fulfilling relationship, and we are committed to helping you find it. Join us today and let&apos;s embark on this journey together!</p>
           <Image
-            src="/gm-pic-2.PNG"
+            src="../public/gm-pic-2.PNG"
             alt="Unsplash Image"
             width={538}
             height={286}
