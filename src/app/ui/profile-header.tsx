@@ -338,7 +338,7 @@ const ProfileHeader = () => {
                                     id="video-upload-input"
                                 />
                                 <label htmlFor="video-upload-input" className="cursor-pointer underline">
-                                    Or click here to select videos
+                                    Or click here to select Images
                                 </label>
                             </div>
                             <button
