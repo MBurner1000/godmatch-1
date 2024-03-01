@@ -321,7 +321,7 @@ const ProfileHeader = () => {
                                 onDrop={handleDrop}
                                 onDragOver={handleDragOver}
                             >
-                                <p>Drag and drop your images here, or click to browse</p>
+                                <p>Drag and drop your images here, </p>
                                 <input
                                     type="file"
                                     accept="image/*"
@@ -329,6 +329,17 @@ const ProfileHeader = () => {
                                     onChange={handleImageChange}
                                     className="hidden"
                                 />
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    multiple
+                                    onChange={handleVideoChange}
+                                    className="hidden"
+                                    id="video-upload-input"
+                                />
+                                <label htmlFor="video-upload-input" className="cursor-pointer underline">
+                                    Or click here to select videos
+                                </label>
                             </div>
                             <button
                                 onClick={addImages}
