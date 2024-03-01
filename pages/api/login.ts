@@ -1,5 +1,3 @@
-// Import necessary modules
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import pool from '../../src/app/db'; // Assuming you have a database connection pool set up
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -32,11 +30,13 @@ if (!jwtSecret) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
+    const userId = user.rows[0].user_id;
+
     // If credentials are valid, generate a JWT token
     const token = jwt.sign({ email: user.rows[0].email }, jwtSecret, { expiresIn: '1h' });
 
     // Send the token in the response
-    res.json({ token });
+    res.json({ token, userId, success: true });
   } catch (error) {
     console.error('Error logging in:', error);
     res.status(500).json({ error: 'Internal Server Error' });

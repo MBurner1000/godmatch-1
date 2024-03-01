@@ -1,9 +1,14 @@
 'use client';
 import { useState } from 'react';
 import Image from 'next/image';
+import axios from 'axios';
+import {useRouter} from 'next/navigation';
 
 const PickImages = () => {
     const [selectedImages, setSelectedImages] = useState<File[]>([]);
+    const [userId, setUserId] = useState<number | null>(null); // State to store the user ID
+
+    const router = useRouter();
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
@@ -26,9 +31,51 @@ const PickImages = () => {
         e.preventDefault();
     };
 
-    const handleFindPeople = () => {
-        // Add functionality to find people
-    };
+    const handleFindPeople = async () => {
+        try {
+            const imagePaths = [];
+            const imageTypes = []; // Array to store image types
+    
+            for (const image of selectedImages) {
+                // Create a FormData object for each image
+                const formData = new FormData();
+                formData.append('image', image);
+    
+                // Extract image type
+                const imageType = image.type.split('/')[1];
+                imageTypes.push(imageType);
+    
+                // Make a POST request to upload the image file
+                const response = await axios.post('/api/uploadImage', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+    
+                // Assuming the server responds with the path to the uploaded image
+                imagePaths.push(response.data.path);
+            }
+    
+            // Get user ID from localStorage
+            const userId = localStorage.getItem('userId');
+            if (!userId) {
+                throw new Error('User ID not found in localStorage');
+            }
+    
+            // Make another request to save the image paths and types to the database
+            const saveResponse = await axios.post('/api/saveImages', {
+                imageUrls: imagePaths,
+                imageTypes: imageTypes,
+                userId: userId,
+            });
+    
+            // Optionally, perform any additional actions after storing image paths
+            console.log('Image paths stored successfully:', saveResponse.data);
+            router.push('/Dashboard');
+        } catch (error) {
+            console.error('Error storing images:', error);
+        }
+    };    
 
     return (
         <div className="flex items-center justify-center min-h-screen">
@@ -61,6 +108,8 @@ const PickImages = () => {
                             <Image
                                 src={URL.createObjectURL(image)}
                                 alt={`Image ${index}`}
+                                width={200}
+                                height={200}
                                 className="w-full h-auto"
                             />
                         </div>

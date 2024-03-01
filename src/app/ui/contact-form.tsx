@@ -1,37 +1,37 @@
 'use client';
-
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const ContactForm = () => {
     const [name, setName] = useState("");
     const [message, setMessage] = useState("");
     const [email, setEmail] = useState("");
-    const imageContainerRef = useRef<HTMLDivElement>(null);
+    const router = useRouter();
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         // Handle form submission
-    };
+        try {
+            const requestData = {
+                name: name,
+                email: email,
+                message: message
+            };
 
-    useEffect(() => {
-        const container = imageContainerRef.current;
-        if (!container) return;
+            console.log("Request Data:", requestData);
 
-        let scrollInterval: NodeJS.Timeout;
-
-        const scrollContainer = () => {
-            if (container.scrollTop !== undefined && container.scrollHeight !== undefined && container.clientHeight !== undefined) {
-                container.scrollTop += 1;
-                if (container.scrollTop >= container.scrollHeight - container.clientHeight) {
-                    container.scrollTop = 0;
-                }
+            // Make a request to send form data
+            const { data: { success } } = await axios.post('/api/sendMessage', requestData);  
+            // Handle the response accordingly
+            if ( success ) {
+                // Redirect to the dashboard
+                router.push('/Contact');
             }
-        };
-
-        scrollInterval = setInterval(scrollContainer, 50);
-
-        return () => clearInterval(scrollInterval);
-    }, []);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     return (
         <div className="flex flex-row gap-2 justify-center items-center w-full mb-4 mt-4 p-4 justify-content">
@@ -73,7 +73,6 @@ const ContactForm = () => {
                 </form>
             </div>
         </div>
-
     );
 }
 

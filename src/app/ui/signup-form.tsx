@@ -2,6 +2,9 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const SignupForm = () => {
     const [email, setEmail] = useState("");
@@ -10,10 +13,24 @@ const SignupForm = () => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const imageContainerRef = useRef<HTMLDivElement>(null);
+    const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        // Handle form submission
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+    
+        try {
+          // Make a request to authenticate the admin
+          const { data: { success, userId } } = await axios.post('/api/signup', { firstName, lastName, email, password });    
+          // Handle the response accordingly
+          if ( success ) {
+            localStorage.setItem('userId', userId); // Store userId in localStorage 
+            // Redirect to the dashboard
+            router.push('/Images');
+          }
+        } catch (error) {
+          setError('Invalid email or password. Please try again.');
+        }
     };
 
     useEffect(() => {
@@ -114,6 +131,7 @@ const SignupForm = () => {
                         className="border-2 border-black text-black rounded-full p-2 w-full"
                     />
                     <button type="submit" className="bg-black mr-2 px-4 py-2 rounded">Sign Up</button>
+                    <Link href={"/Login"} className="text-white mr-2 px-4 py-2 rounded">Login</Link>
                 </form>
             </div>
         </div>

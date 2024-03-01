@@ -12,53 +12,13 @@ const AdviceForm = () => {
         // Handle form submission
     };
 
-    useEffect(() => {
-        const container = imageContainerRef.current;
-        if (!container) return;
-
-        let scrollInterval: NodeJS.Timeout;
-
-        const scrollContainer = () => {
-            if (container.scrollTop !== undefined && container.scrollHeight !== undefined && container.clientHeight !== undefined) {
-                container.scrollTop += 1;
-                if (container.scrollTop >= container.scrollHeight - container.clientHeight) {
-                    container.scrollTop = 0;
-                }
-            }
-        };
-
-        scrollInterval = setInterval(scrollContainer, 50);
-
-        return () => clearInterval(scrollInterval);
-    }, []);
-
     return (
         <div className="flex flex-row gap-2 justify-center items-center w-full mb-4 mt-4 p-4 justify-content">
             <div className="flex flex-col gap-2 justify-center items-center w-full mb-4 mt-4 p-4 justify-content">
-                <form onSubmit={handleSubmit} className="flex flex-col gap-2 justify-center items-center w-full mb-4 mt-4 p-4 justify-content">
-                    <label htmlFor="Title" className="text-white">Question:</label>
-                    <input
-                        type="text"
-                        id="Title"
-                        name="Title"
-                        placeholder="Question..."
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        required
-                        className="border-2 border-black text-black rounded p-2 w-full"
-                    />
-                    <label htmlFor="Body" className="text-white">Add More Detail Here:</label>
-                    <textarea
-                        id="Body"
-                        name="Body"
-                        placeholder="Your Question's Details. In other words, why are you asking this?"
-                        value={body}
-                        onChange={(e) => setBody(e.target.value)}
-                        required
-                        className="border-2 border-black text-black rounded p-4 w-full"
-                    />
-                    <button type="submit" className="bg-black mr-2 px-4 py-2 rounded">Ask For Advice</button>
-                </form>
+                <h1 className="text-2xl text-center font-bold mb-4">GodMatch Separates Itself From Other Dating Sites and Offers Advice to Members</h1>
+                <p>Advice is given over email, and a one-time payment of $15 is required.</p>
+                <p>To get started, Email us at <a href="mailto:godmatch100@gmail.com" className=" font-bold">godmatch100@gmail.com</a></p>
+                <p className=" text-white font-bold">Our team will respond to your email within 24 hours</p>
             </div>
         </div>
 

@@ -17,7 +17,7 @@ export default function MainHeader() {
     return (
         <header>
             <nav className="flex justify-between items-center bg-black text-white py-4 px-6 hidden md:block">
-            <ul className="flex flex-row gap-2">
+            <ul className="flex flex-row gap-4">
                 <div>
                     <Link href="/">Home</Link>
                 </div>

@@ -2,19 +2,33 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
     const imageContainerRef = useRef<HTMLDivElement>(null);
+    const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        // Handle form submission
-    };
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+    
+        try {
+          // Make a request to authenticate the admin
+          const { data: { success, userId } } = await axios.post('/api/login', { email, password });       
+          // Handle the response accordingly
+          if (success) {
+            localStorage.setItem('userId', userId); // Store userId in localStorage 
+            // Redirect to the dashboard
+            router.push('/Dashboard');
+          }
+        } catch (error) {
+          setError('Invalid email or password. Please try again.');
+        }
+      };
 
     useEffect(() => {
         const container = imageContainerRef.current;
@@ -63,6 +77,8 @@ const LoginForm = () => {
                         className="border-2 border-black text-black rounded-full p-2 w-full"
                     />
                     <button type="submit" className="bg-black mr-2 px-4 py-2 rounded">Login</button>
+                    <Link href={"/Signup"} className="text-white mr-2 px-4 py-2 rounded">Sign Up</Link>
+                    <Link href={"/ForgotPassword"} className="text-white mr-2 px-4 py-2 rounded">Forgot Password</Link>
                 </form>
             </div>
             <div
