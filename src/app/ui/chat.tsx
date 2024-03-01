@@ -32,7 +32,7 @@ const ChatRoom = ({ user_id }: { user_id: number }) => {
           // Handle the response accordingly
           if ( success ) {
             // Redirect to the dashboard
-            router.push('/Dashboard/Chat/'+ user_id +'?user_id=' + user_id);
+            router.push('/Dashboard/Angels/Chat/'+ user_id +'?user_id=' + user_id);
           }
       } catch (error) {
           setError('Invalid email or password. Please try again.');
