@@ -328,16 +328,9 @@ const ProfileHeader = () => {
                                     multiple
                                     onChange={handleImageChange}
                                     className="hidden"
+                                    id="image-upload-input"
                                 />
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    multiple
-                                    onChange={handleVideoChange}
-                                    className="hidden"
-                                    id="video-upload-input"
-                                />
-                                <label htmlFor="video-upload-input" className="cursor-pointer underline">
+                                <label htmlFor="image-upload-input" className="cursor-pointer underline">
                                     Or click here to select Images
                                 </label>
                             </div>
