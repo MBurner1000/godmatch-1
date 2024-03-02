@@ -153,6 +153,7 @@ const ProfileHeader = () => {
     
             // Optionally, perform any additional actions after storing image paths
             console.log('Image paths stored successfully:', saveResponse.data);
+            alert("Image(s) stored successfully");
             router.push('/Dashboard/Profile');
         } catch (error) {
             console.error('Error storing images:', error);
@@ -199,6 +200,7 @@ const ProfileHeader = () => {
     
             // Optionally, perform any additional actions after storing video paths
             console.log('Video paths stored successfully:', saveResponse.data);
+            alert("Video(s) stored successfully");
             router.push('/Dashboard/Profile');
         } catch (error) {
             console.error('Error storing videos:', error);
