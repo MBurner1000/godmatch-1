@@ -3,6 +3,8 @@ import { useState } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
 import {useRouter} from 'next/navigation';
+import { put } from '@vercel/blob';
+import { revalidatePath } from 'next/cache';
 
 const PickImages = () => {
     const [selectedImages, setSelectedImages] = useState<File[]>([]);
@@ -33,48 +35,50 @@ const PickImages = () => {
 
     const handleFindPeople = async () => {
         try {
-            const imagePaths = [];
-            const imageTypes = []; // Array to store image types
-    
+            const imagePaths: string[] = [];
+            const imageTypes: string[] = [];
+        
             for (const image of selectedImages) {
-                // Create a FormData object for each image
-                const formData = new FormData();
-                formData.append('image', image);
-    
-                // Extract image type
-                const imageType = image.type.split('/')[1];
-                imageTypes.push(imageType);
-    
-                // Make a POST request to upload the image file
-                const response = await axios.post('/api/uploadImage', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                });
-    
-                // Assuming the server responds with the path to the uploaded image
-                imagePaths.push(response.data.path);
+              const imageType = image.type.split('/')[1];
+              imageTypes.push(imageType);
+  
+              const formData = new FormData();
+              formData.append('image', image);
+  
+              console.log(process.env.BLOB_READ_WRITE_TOKEN);
+        
+              const imageFile = formData.get('image') as File;
+              const blob = await put(imageFile.name, imageFile, {
+                access: 'public',
+                token: 'vercel_blob_rw_yZpZBbdWWYyri4vo_QdPZCbcA8tnZUYUQVbUPooOZWnlZ7w',
+              });
+              
+              // Add the blob URL to the list of image paths
+              imagePaths.push(blob.url);
             }
-    
-            // Get user ID from localStorage
+  
             const userId = localStorage.getItem('userId');
             if (!userId) {
-                throw new Error('User ID not found in localStorage');
+              throw new Error('User ID not found in localStorage');
             }
-    
-            // Make another request to save the image paths and types to the database
+  
+            console.log('Image paths:', imagePaths);
+        
+            // Send video URLs and types to save them in the backend
             const saveResponse = await axios.post('/api/saveImages', {
-                imageUrls: imagePaths,
-                imageTypes: imageTypes,
-                userId: userId,
+              imagePaths: imagePaths,
+              imageTypes: imageTypes,
+              userId: userId,
             });
-    
-            // Optionally, perform any additional actions after storing image paths
-            console.log('Image paths stored successfully:', saveResponse.data);
+        
+            // Use imagePaths as needed (e.g., saving to database or displaying)
+            console.log('Uploaded image paths:', imagePaths);
+
             router.push('/Dashboard');
-        } catch (error) {
-            console.error('Error storing images:', error);
-        }
+          } catch (error) {
+            console.error('Error uploading images:', error);
+            // Handle error as needed (e.g., show error message)
+          }
     };    
 
     return (

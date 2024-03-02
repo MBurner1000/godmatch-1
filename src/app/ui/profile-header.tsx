@@ -5,6 +5,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { put } from '@vercel/blob';
+import { revalidatePath } from 'next/cache';
 
 const ProfileHeader = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -115,43 +117,52 @@ const ProfileHeader = () => {
 
     const addImages = async () => {
         try {
-          const imagePaths = [];
-          const imageTypes = [];
+          const imagePaths: string[] = [];
+          const imageTypes: string[] = [];
       
           for (const image of selectedImages) {
             const imageType = image.type.split('/')[1];
             imageTypes.push(imageType);
-      
+
             const formData = new FormData();
             formData.append('image', image);
+
+            console.log(process.env.BLOB_READ_WRITE_TOKEN);
       
-            const response = await axios.post('/api/uploadImage', formData, {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
+            const imageFile = formData.get('image') as File;
+            const blob = await put(imageFile.name, imageFile, {
+              access: 'public',
+              token: 'vercel_blob_rw_yZpZBbdWWYyri4vo_QdPZCbcA8tnZUYUQVbUPooOZWnlZ7w',
             });
-      
-            imagePaths.push(response.data.path);
+            
+            // Add the blob URL to the list of image paths
+            imagePaths.push(blob.url);
           }
-      
+
           const userId = localStorage.getItem('userId');
           if (!userId) {
             throw new Error('User ID not found in localStorage');
           }
+
+          console.log('Image paths:', imagePaths);
       
+          // Send video URLs and types to save them in the backend
           const saveResponse = await axios.post('/api/saveImages', {
-            imageUrls: imagePaths,
+            imagePaths: imagePaths,
             imageTypes: imageTypes,
             userId: userId,
           });
       
-          console.log('Image paths stored successfully:', saveResponse.data);
-          alert("Image(s) stored successfully");
-          router.push('/Dashboard/Profile');
+          // Use imagePaths as needed (e.g., saving to database or displaying)
+          console.log('Uploaded image paths:', imagePaths);
+          
+          // Optionally close the modal after uploading
+          toggleImageModal();
         } catch (error) {
-          console.error('Error storing images:', error);
+          console.error('Error uploading images:', error);
+          // Handle error as needed (e.g., show error message)
         }
-    };  
+    };
 
     const addVideos = async () => {
         try {
@@ -166,25 +177,17 @@ const ProfileHeader = () => {
             const formData = new FormData();
             formData.append('video', video);
       
-            try {
-              // Send the video file to the backend
-              const response = await fetch('/api/uploadVideo', {
-                method: 'POST',
-                body: formData,
-              });
+            console.log(process.env.BLOB_READ_WRITE_TOKEN);
       
-              if (!response.ok) {
-                throw new Error('Failed to upload video');
-              }
-      
-              // Assuming the server responds with the path to the uploaded video
-              const responseData = await response.json();
-              videoPaths.push(responseData.path);
-            } catch (error) {
-              console.error('Error uploading video:', error);
-            }
+            const videoFile = formData.get('video') as File;
+            const blob = await put(videoFile.name, videoFile, {
+              access: 'public',
+              token: 'vercel_blob_rw_yZpZBbdWWYyri4vo_QdPZCbcA8tnZUYUQVbUPooOZWnlZ7w',
+            });
+            
+            // Add the blob URL to the list of image paths
+            videoPaths.push(blob.url);
           }
-      
           const userId = localStorage.getItem('userId');
           if (!userId) {
             throw new Error('User ID not found in localStorage');
@@ -199,10 +202,12 @@ const ProfileHeader = () => {
       
           console.log('Video paths stored successfully:', saveResponse.data);
           alert("Video(s) stored successfully");
+          toggleVideoModal();
           router.push('/Dashboard/Profile');
-        } catch (error) {
-          console.error('Error storing videos:', error);
-        }
+
+          } catch (error) {
+            console.error('Error uploading videos:', error);
+          }
     };   
     
     return (

@@ -1,66 +1,25 @@
-import fs from 'fs';
-import path from 'path';
-import multer from 'multer';
+import { put } from '@vercel/blob';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { NextResponse } from 'next/server';
 
-const uploadDir = path.join(process.cwd(), 'public', 'uploads');
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  try {
+    const url = req.url || ''; // Use an empty string if req.url is undefined
+    const { searchParams } = new URL(url);
+    const filename = searchParams.get('filename');
 
-const ensureUploadDirExists = () => {
-  if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-  }
-};
-
-const storage = multer.diskStorage({
-  destination: uploadDir,
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, `${file.originalname}-${uniqueSuffix}`);
-  },
-});
-
-const upload = multer({
-  storage,
-  limits: {
-    fileSize: 10 * 1024 * 1024, // 10 MB (in bytes)
-  },
-});
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method === 'POST') {
-    try {
-      ensureUploadDirExists();
-
-      upload.single('image')(req as any, res as any, (err: any) => {
-        if (err) {
-          console.error('Error uploading image:', err);
-          res.status(500).json({ error: 'Error uploading image' });
-          return;
-        }
-
-        const fileName = (req as any).file?.filename;
-
-        if (!fileName) {
-          res.status(400).json({ error: 'Invalid file upload' });
-          return;
-        }
-
-        res.status(200).json({ path: `/uploads/${fileName}` });
-      });
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      res.status(500).json({ error: 'Error uploading image' });
+    if (!filename) {
+      return res.status(400).json({ error: 'Filename is missing in the query parameters' });
     }
-  } else {
-    res.status(405).end();
+
+    // Upload the file using Vercel Blob
+    const blob = await put(filename, req.body, {
+      access: 'public',
+    });
+
+    return res.status(200).json(blob);
+  } catch (error) {
+    console.error('Error uploading file:', error);
+    return res.status(500).json({ error: 'Error uploading file' });
   }
 }

@@ -4,18 +4,19 @@ import pool from '../../src/app/db'; // Update the path accordingly
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
       try {
-        const { imageUrls, imageTypes, userId } = req.body;
+        const { imagePaths, imageTypes, userId } = req.body;
+        console.log(imagePaths, imageTypes, userId);
         // Validate the input parameters (user_id, imageUrls, imageTypes)
-        if (!userId || !imageUrls || !imageTypes) {
+        if (!userId || !imagePaths || !imageTypes) {
           return res.status(400).json({ error: 'Missing required parameters' });
         }
   
         // Assuming imageUrls and imageTypes are arrays of strings
         // Insert data into the media table for each image
-        for (let i = 0; i < imageUrls.length; i++) {
+        for (let i = 0; i < imagePaths.length; i++) {
           const result = await pool.query(
             'INSERT INTO media (user_id, media_type, media_url) VALUES ($1, $2, $3) RETURNING *',
-            [userId, imageTypes[i], imageUrls[i]]
+            [userId, imageTypes[i], imagePaths[i]]
           );
           // Optionally, handle the result if needed
           console.log('Image saved:', result.rows[0]);
