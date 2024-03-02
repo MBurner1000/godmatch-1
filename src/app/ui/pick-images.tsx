@@ -87,14 +87,18 @@ const PickImages = () => {
                     onDrop={handleDrop}
                     onDragOver={handleDragOver}
                 >
-                    <p>Drag and drop your images here, or click to browse</p>
+                    <p>Drag and drop your images here</p>
                     <input
                         type="file"
                         accept="image/*"
                         multiple
                         onChange={handleImageChange}
                         className="hidden"
+                        id="image-upload-input"
                     />
+                    <label htmlFor="image-upload-input" className="cursor-pointer">
+                        Or click here to select videos
+                    </label>
                 </div>
                 <button
                     onClick={handleFindPeople}

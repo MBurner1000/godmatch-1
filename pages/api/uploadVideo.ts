@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import multer from 'multer';
-import { IncomingMessage, ServerResponse } from 'http';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 const uploadDir = path.join(process.cwd(), 'public', 'uploads');
 
@@ -15,7 +15,8 @@ const storage = multer.diskStorage({
   destination: uploadDir,
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, `${file.originalname}-${uniqueSuffix}`);
+    // Use the original filename instead of adding a unique suffix
+    cb(null, file.originalname);
   },
 });
 
@@ -27,9 +28,9 @@ export const config = {
   },
 };
 
-export default async function handler(
-  req: IncomingMessage,
-  res: ServerResponse
+export default function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
 ) {
   if (req.method === 'POST') {
     try {
@@ -37,24 +38,25 @@ export default async function handler(
 
       upload.single('video')(req as any, res as any, (err: any) => {
         if (err) {
-          return res.statusCode = 400;
+          console.error('Error uploading video:', err);
+          res.status(500).json({ error: 'Error uploading video' });
+          return;
         }
 
         const fileName = (req as any).file?.filename;
 
         if (!fileName) {
-          return res.statusCode = 400;
+          res.status(400).json({ error: 'Invalid file upload' });
+          return;
         }
 
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify({ path: `/uploads/${fileName}` }));
+        res.status(200).json({ path: `/uploads/${fileName}` });
       });
     } catch (error) {
       console.error('Error uploading video:', error);
-      res.statusCode = 500;
+      res.status(500).json({ error: 'Error uploading video' });
     }
   } else {
-    res.statusCode = 405;
+    res.status(405).end();
   }
 }

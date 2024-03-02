@@ -115,99 +115,100 @@ const ProfileHeader = () => {
 
     const addImages = async () => {
         try {
-            const imagePaths = [];
-            const imageTypes = []; // Array to store image types
-    
-            for (const image of selectedImages) {
-                // Create a FormData object for each image
-                const formData = new FormData();
-                formData.append('image', image);
-    
-                // Extract image type
-                const imageType = image.type.split('/')[1];
-                imageTypes.push(imageType);
-    
-                // Make a POST request to upload the image file
-                const response = await axios.post('/api/uploadImage', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                });
-    
-                // Assuming the server responds with the path to the uploaded image
-                imagePaths.push(response.data.path);
-            }
-    
-            // Get user ID from localStorage
-            const userId = localStorage.getItem('userId');
-            if (!userId) {
-                throw new Error('User ID not found in localStorage');
-            }
-    
-            // Make another request to save the image paths and types to the database
-            const saveResponse = await axios.post('/api/saveImages', {
-                imageUrls: imagePaths,
-                imageTypes: imageTypes,
-                userId: userId,
+          const imagePaths = [];
+          const imageTypes = [];
+      
+          for (const image of selectedImages) {
+            const imageType = image.type.split('/')[1];
+            imageTypes.push(imageType);
+      
+            // Convert the selected image to ArrayBuffer
+            const arrayBuffer = await image.arrayBuffer();
+      
+            // Create a Uint8Array from the ArrayBuffer
+            const uint8Array = new Uint8Array(arrayBuffer);
+      
+            // Send the Uint8Array as binary data directly in the request body
+            const response = await axios.post('/api/uploadImage', uint8Array, {
+              headers: {
+                'Content-Type': image.type,
+              },
             });
-    
-            // Optionally, perform any additional actions after storing image paths
-            console.log('Image paths stored successfully:', saveResponse.data);
-            alert("Image(s) stored successfully");
-            router.push('/Dashboard/Profile');
+      
+            imagePaths.push(response.data.path);
+          }
+      
+          const userId = localStorage.getItem('userId');
+          if (!userId) {
+            throw new Error('User ID not found in localStorage');
+          }
+      
+          const saveResponse = await axios.post('/api/saveImages', {
+            imageUrls: imagePaths,
+            imageTypes: imageTypes,
+            userId: userId,
+          });
+      
+          console.log('Image paths stored successfully:', saveResponse.data);
+          alert("Image(s) stored successfully");
+          router.push('/Dashboard/Profile');
         } catch (error) {
-            console.error('Error storing images:', error);
+          console.error('Error storing images:', error);
         }
     }
 
     const addVideos = async () => {
         try {
-            const videoPaths = [];
-            const videoTypes = []; // Array to store video types
-    
-            for (const video of selectedVideos) {
-                // Create a FormData object for each video
-                const formData = new FormData();
-                formData.append('video', video);
-    
-                // Extract video type
-                const videoType = video.type.split('/')[1];
-                videoTypes.push(videoType);
-    
-                // Make a POST request to upload the video file
-                const response = await axios.post('/api/uploadVideo', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                });
-    
-                // Assuming the server responds with the path to the uploaded video
-                videoPaths.push(response.data.path);
+          const videoPaths: string[] = [];
+          const videoTypes: string[] = []; // Array to store video types
+      
+          for (const video of selectedVideos) {
+            const videoType = video.type.split('/')[1];
+            videoTypes.push(videoType);
+      
+            // Create a FormData object
+            const formData = new FormData();
+            formData.append('video', video);
+      
+            try {
+              // Send the video file to the backend
+              const response = await fetch('/api/uploadVideo', {
+                method: 'POST',
+                body: formData,
+              });
+      
+              if (!response.ok) {
+                throw new Error('Failed to upload video');
+              }
+      
+              // Assuming the server responds with the path to the uploaded video
+              const responseData = await response.json();
+              videoPaths.push(responseData.path);
+            } catch (error) {
+              console.error('Error uploading video:', error);
             }
-    
-            // Get user ID from localStorage
-            const userId = localStorage.getItem('userId');
-            if (!userId) {
-                throw new Error('User ID not found in localStorage');
-            }
-    
-            // Make another request to save the video paths and types to the database
-            const saveResponse = await axios.post('/api/saveVideos', {
-                videoUrls: videoPaths,
-                videoTypes: videoTypes,
-                userId: userId,
-            });
-    
-            // Optionally, perform any additional actions after storing video paths
-            console.log('Video paths stored successfully:', saveResponse.data);
-            alert("Video(s) stored successfully");
-            router.push('/Dashboard/Profile');
+          }
+      
+          const userId = localStorage.getItem('userId');
+          if (!userId) {
+            throw new Error('User ID not found in localStorage');
+          }
+      
+          // Send video URLs and types to save them in the backend
+          const saveResponse = await axios.post('/api/saveVideos', {
+            videoUrls: videoPaths,
+            videoTypes: videoTypes,
+            userId: userId,
+          });
+      
+          console.log('Video paths stored successfully:', saveResponse.data);
+          alert("Video(s) stored successfully");
+          router.push('/Dashboard/Profile');
         } catch (error) {
-            console.error('Error storing videos:', error);
+          console.error('Error storing videos:', error);
         }
-    }
+    };   
     
-
     return (
         <div>
             <header>

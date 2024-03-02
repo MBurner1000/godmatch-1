@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import multer from 'multer';
-import { IncomingMessage, ServerResponse } from 'http';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 const uploadDir = path.join(process.cwd(), 'public', 'uploads');
 
@@ -11,51 +10,48 @@ const ensureUploadDirExists = () => {
   }
 };
 
-const storage = multer.diskStorage({
-  destination: uploadDir,
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, `${file.originalname}-${uniqueSuffix}`);
-  },
-});
-
-const upload = multer({ storage });
-
 export const config = {
   api: {
-    bodyParser: false,
+    bodyParser: false, // Disable automatic parsing of request body
   },
 };
 
 export default async function handler(
-    req: IncomingMessage,
-    res: ServerResponse
+  req: NextApiRequest,
+  res: NextApiResponse
 ) {
-    if (req.method === 'POST') {
-        try {
-            ensureUploadDirExists();
+  if (req.method === 'POST') {
+    try {
+      ensureUploadDirExists();
 
-            upload.single('image')(req as any, res as any, (err: any) => {
-                if (err) {
-                    return res.statusCode = 400;
-                }
+      // Extract file extension from content type
+      const contentType = req.headers['content-type'] || '';
+      const extension = contentType.split('/')[1];
+      if (!extension) {
+        throw new Error('Invalid content type');
+      }
 
-                const fileName = (req as any).file?.filename;
+      const fileName = `${Date.now()}-${Math.round(Math.random() * 1e9)}.${extension}`;
+      const filePath = path.join(uploadDir, fileName);
 
-                if (!fileName) {
-                    return res.statusCode = 400;
-                }
+      const fileStream = fs.createWriteStream(filePath);
 
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.end(JSON.stringify({ path: `/uploads/${fileName}` }));
+      // Write the binary data directly from the request body to the file
+      req.pipe(fileStream);
 
-            });
-        } catch (error) {
-            console.error('Error uploading image:', error);
-            res.statusCode = 500;
-        }
-    } else {
-        res.statusCode = 405;
+      fileStream.on('error', (err) => {
+        console.error('Error writing file:', err);
+        res.status(500).end();
+      });
+
+      fileStream.on('finish', () => {
+        res.status(200).json({ path: `/uploads/${fileName}` });
+      });
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      res.status(500).end();
     }
+  } else {
+    res.status(405).end();
+  }
 }
