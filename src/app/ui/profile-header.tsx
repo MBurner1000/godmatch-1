@@ -122,16 +122,12 @@ const ProfileHeader = () => {
             const imageType = image.type.split('/')[1];
             imageTypes.push(imageType);
       
-            // Convert the selected image to ArrayBuffer
-            const arrayBuffer = await image.arrayBuffer();
+            const formData = new FormData();
+            formData.append('image', image);
       
-            // Create a Uint8Array from the ArrayBuffer
-            const uint8Array = new Uint8Array(arrayBuffer);
-      
-            // Send the Uint8Array as binary data directly in the request body
-            const response = await axios.post('/api/uploadImage', uint8Array, {
+            const response = await axios.post('/api/uploadImage', formData, {
               headers: {
-                'Content-Type': image.type,
+                'Content-Type': 'multipart/form-data',
               },
             });
       
@@ -155,7 +151,7 @@ const ProfileHeader = () => {
         } catch (error) {
           console.error('Error storing images:', error);
         }
-    }
+    };  
 
     const addVideos = async () => {
         try {

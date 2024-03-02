@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import multer from 'multer';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 const uploadDir = path.join(process.cwd(), 'public', 'uploads');
@@ -10,13 +11,28 @@ const ensureUploadDirExists = () => {
   }
 };
 
+const storage = multer.diskStorage({
+  destination: uploadDir,
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    cb(null, `${file.originalname}-${uniqueSuffix}`);
+  },
+});
+
+const upload = multer({
+  storage,
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10 MB (in bytes)
+  },
+});
+
 export const config = {
   api: {
-    bodyParser: false, // Disable automatic parsing of request body
+    bodyParser: false,
   },
 };
 
-export default async function handler(
+export default function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -24,32 +40,25 @@ export default async function handler(
     try {
       ensureUploadDirExists();
 
-      // Extract file extension from content type
-      const contentType = req.headers['content-type'] || '';
-      const extension = contentType.split('/')[1];
-      if (!extension) {
-        throw new Error('Invalid content type');
-      }
+      upload.single('image')(req as any, res as any, (err: any) => {
+        if (err) {
+          console.error('Error uploading image:', err);
+          res.status(500).json({ error: 'Error uploading image' });
+          return;
+        }
 
-      const fileName = `${Date.now()}-${Math.round(Math.random() * 1e9)}.${extension}`;
-      const filePath = path.join(uploadDir, fileName);
+        const fileName = (req as any).file?.filename;
 
-      const fileStream = fs.createWriteStream(filePath);
+        if (!fileName) {
+          res.status(400).json({ error: 'Invalid file upload' });
+          return;
+        }
 
-      // Write the binary data directly from the request body to the file
-      req.pipe(fileStream);
-
-      fileStream.on('error', (err) => {
-        console.error('Error writing file:', err);
-        res.status(500).end();
-      });
-
-      fileStream.on('finish', () => {
         res.status(200).json({ path: `/uploads/${fileName}` });
       });
     } catch (error) {
       console.error('Error uploading image:', error);
-      res.status(500).end();
+      res.status(500).json({ error: 'Error uploading image' });
     }
   } else {
     res.status(405).end();
