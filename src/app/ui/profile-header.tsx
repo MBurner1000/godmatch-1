@@ -368,9 +368,9 @@ const ProfileHeader = () => {
                 <div className="fixed inset-0 flex items-center justify-center z-50">
                     <div className="fixed inset-0 bg-gray-900 opacity-75 overflow-y-auto overflow-x-auto"></div>
                     <div className="flex items-center justify-center w-full h-full z-10">
-                        <div className="bg-gray-200 p-6 rounded-lg">
+                        <div className="bg-gray-200 p-6 rounded-lg overflow-y-auto overflow-x-auto">
                             <h2 className="text-2xl font-bold mb-4">Edit Profile Information</h2>
-                            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                            <form onSubmit={handleSubmit} className="flex flex-col gap-4 overflow-y-auto overflow-x-auto">
                                 {/* Form inputs for editing user information */}
                                 <div className="flex flex-row gap-2">
                                 <label htmlFor="birthday">Birthday</label>
@@ -392,6 +392,7 @@ const ProfileHeader = () => {
                                     className="border border-gray-300 rounded-lg p-2 mb-4"
                                 />
                                 </div>
+                                <div className="flex flex-row md:flex-col gap-2">
                                 <label htmlFor="gender">Gender</label>
                                 <select
                                     id="gender"
@@ -414,6 +415,7 @@ const ProfileHeader = () => {
                                     onChange={handleChange}
                                     className="border border-gray-300 rounded-lg p-2 mb-4"
                                 />
+                                </div>
                                 <label htmlFor="bio">Bio</label>
                                 <textarea
                                     id="bio"
