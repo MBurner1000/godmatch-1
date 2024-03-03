@@ -19,6 +19,7 @@ const AdviceForm = () => {
                 <p>Advice is given over email, and a one-time payment of $15 is required.</p>
                 <p>To get started, Email us at <a href="mailto:godmatch100@gmail.com" className=" font-bold">godmatch100@gmail.com</a></p>
                 <p className=" text-white font-bold">Our team will respond to your email within 24 hours</p>
+                <p>Ask about our break up service!</p>
             </div>
         </div>
 
