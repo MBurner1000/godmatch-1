@@ -108,7 +108,7 @@ const PickImages = () => {
                     onClick={handleFindPeople}
                     className="bg-black hover:bg-gray-700 font-bold py-2 px-4 rounded"
                 >
-                    Find People
+                    Ready to Find Your Match? Click Here.
                 </button>
                 <div className="grid grid-cols-3 gap-4 mt-4">
                     {selectedImages.map((image, index) => (
