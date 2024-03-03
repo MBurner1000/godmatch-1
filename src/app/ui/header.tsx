@@ -52,7 +52,7 @@ export default function MainHeader() {
                         </svg>
                     </button>
                     {isDropdownOpen && (
-                        <div className="absolute bg-gray-800 z-10 right-0 top-12 p-2 rounded-md shadow-lg">
+                        <div className="absolute bg-gray-800 z-10 right-0 left-5 w-40 top-12 p-2 rounded-md shadow-lg">
                             <ul className="flex flex-col gap-2">
                                 <div>
                                     <Link href="/">Home</Link>
