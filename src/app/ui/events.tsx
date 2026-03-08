@@ -45,7 +45,7 @@ const EventsListed = () => {
   }, []);
 
   if (!events) {
-    return <div>No Events Yet. Check tomorrow!</div>;
+    return <div>Events are now emailed. Check your inbox for some excitement!</div>;
   }
 
     return (
